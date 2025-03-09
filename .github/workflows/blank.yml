@@ -27,6 +27,8 @@ jobs:
     name: Manual Approval
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      issues: write
     steps:
       - name: manual approval
         uses: trstringer/manual-approval@v1
