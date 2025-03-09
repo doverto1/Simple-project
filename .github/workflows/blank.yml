@@ -24,20 +24,29 @@ jobs:
         run: echo 'The job was automatically triggered by a ${{ github.event_name }} event.'
   manual-approval:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: prod
     name: Manual Approval
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      issues: write
     steps:
-      - name: manual approval
-        uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: doverto1 # Replace with GitHub usernames, with the free version you can only have an issue assigned to one username
-          minimum-approvals: 1
-          issue-title: "Manual Approval Required for Terraform Apply"
-          issue-body: "Please approve or deny the deployment."
+      - name: Approval Step
+        run: echo 'This needs to be approved.'
+  # manual-approval:
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   name: Manual Approval
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   permissions:
+  #     issues: write
+  #   steps:
+  #     - name: manual approval
+  #       uses: trstringer/manual-approval@v1
+  #       with:
+  #         secret: ${{ github.TOKEN }}
+  #         approvers: doverto1 # Replace with GitHub usernames, with the free version you can only have an issue assigned to one username
+  #         minimum-approvals: 1
+  #         issue-title: "Manual Approval Required for Terraform Apply"
+  #         issue-body: "Please approve or deny the deployment."
   process:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
